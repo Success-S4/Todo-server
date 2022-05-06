@@ -36,7 +36,12 @@ def get_category(request):
     if request.method == "GET":
         uesr_category = Category.objects.filter(user = user)
         user_category_json = serializers.serialize("json", uesr_category)
-        return JsonResponse(user_category_json, safe=False)
+        return JsonResponse({
+                'status': 200,
+                'success': True,
+                'message': '수신 성공!',
+                'data': user_category_json
+            })
     return 0
 
 
@@ -48,13 +53,14 @@ def update_category(request, id):
         update_category.title = body['title']
         update_category.view_auth = body['view_auth']
         update_category.save()
-        # update_category_json = serializers.serialize("json", update_category)
+        update_category_json = [update_category]
+        update_category_json = serializers.serialize("json", update_category_json)
         
         return JsonResponse({
                 'status': 200,
                 'success': True,
                 'message': '업데이트 성공!',
-                'data': "update_category_json"
+                'data': update_category_json
             })
     return 0
     
@@ -68,5 +74,38 @@ def delete_category(request, id):
                 'success': True,
                 'message': '삭제 성공!',
                 'data': "delete_category_json"
+            })
+    return 0
+
+
+def create_todo(request, category_id):
+    user = authenticate(username="admin", password="1234")
+    login(request, user)
+    if request.method == "POST":
+        body =  json.loads(request.body.decode('utf-8'))
+        new_todo = Todo()
+        new_todo.category = get_object_or_404(Category, pk = category_id)
+        new_todo.content = body['content']
+        new_todo.save()
+        new_todo_json = [new_todo]
+        new_todo_json = serializers.serialize("json", new_todo_json)
+        return JsonResponse({
+                'status': 200,
+                'success': True,
+                'message': '댓글 생성 성공!',
+                'data': new_todo_json
+            })
+    return 0
+
+
+def get_todo(request, category_id):
+    if request.method == "GET":
+        category_todo = Todo.objects.filter(category = category_id)
+        category_todo_json = serializers.serialize("json", category_todo)
+        return JsonResponse({
+                'status': 200,
+                'success': True,
+                'message': 'todo 로드 성공!',
+                'data': category_todo_json
             })
     return 0
