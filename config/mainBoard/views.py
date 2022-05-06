@@ -109,3 +109,35 @@ def get_todo(request, category_id):
                 'data': category_todo_json
             })
     return 0
+
+
+def update_todo(request, todo_id):
+    if request.method == "POST":
+        body =  json.loads(request.body.decode('utf-8'))
+        update_todo = get_object_or_404(Todo,pk = todo_id)
+        update_todo.content = body['content']
+        update_todo.is_completed = body['is_completed']
+        update_todo.save()
+        update_todo_json = [update_todo]
+        update_todo_json = serializers.serialize("json", update_todo_json)
+        
+        return JsonResponse({
+                'status': 200,
+                'success': True,
+                'message': '댓글 업데이트 성공!',
+                'data': update_todo_json
+            })
+    return 0
+
+
+def delete_todo(request, todo_id):
+    if request.method == "POST":
+        delete_todo = get_object_or_404(Todo,pk = todo_id)
+        delete_todo.delete()
+        return JsonResponse({
+                'status': 200,
+                'success': True,
+                'message': '댓글 삭제 성공!',
+                'data': "delete_category_json"
+            })
+    return 0

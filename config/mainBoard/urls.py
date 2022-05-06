@@ -10,5 +10,7 @@ urlpatterns = [
     path('delete-category/<int:id>', delete_category, name="delete_category"),
     path('create-todo/<int:category_id>', create_todo, name="create_todo"),
     path('get-todo/<int:category_id>', get_todo, name="get_todo"),
+    path('update-todo/<int:todo_id>', update_todo, name="update_todo"),
+    path('delete-todo/<int:todo_id>', delete_todo, name="delete_todo"),
     
 ]
