@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from mainBoard.views import *
+from django.conf.urls import include
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('mainBoard/',main_view, name="main-view")
+    path('', include('mainBoard.urls') )
     
 ]
