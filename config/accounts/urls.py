@@ -3,6 +3,7 @@ from accounts.views import *
 
 
 urlpatterns = [
-    # path('', )
+    path('signin/', signin, name="signin"),
+    path('signup/', signup, name="signup"),
     
 ]
