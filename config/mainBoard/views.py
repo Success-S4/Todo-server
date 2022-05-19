@@ -12,6 +12,7 @@ def view_main(request):
 
 
 def create_category(request):
+    print("debug")
     user = authenticate(username="admin", password="1234")
     login(request, user)
     if request.method == "POST":

@@ -18,10 +18,13 @@ from django.urls import path
 from mainBoard.views import *
 from django.conf.urls import include
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('mainBoard.urls') )
-    path('accounts/', include('accounts.urls') )
+    path('', include('mainBoard.urls') ),
+    path('accounts/', include('accounts.urls') ),
     
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -3,6 +3,6 @@ from accounts.views import *
 
 
 urlpatterns = [
-    path('', )
+    # path('', )
     
 ]
