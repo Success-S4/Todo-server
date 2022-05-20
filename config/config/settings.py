@@ -63,9 +63,10 @@ INSTALLED_APPS = [
     'allauth', # <- 추가
     'allauth.account', # <- 추가
     'allauth.socialaccount', # <- 추가
+    'allauth.socialaccount.providers.kakao', # <- 추가
 ]
 
-SITE_ID = 1
+SITE_ID = 2
 
 
 MIDDLEWARE = [
