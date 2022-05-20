@@ -33,6 +33,22 @@ def signin(request):
             })
     return 0
 
+def signout(request):
+    if not request.user.is_authenticated:
+        status=400
+        is_successed = False
+        message = "이미 로그아웃 되어 있습니다."
+    else:
+        logout(request)
+        status=200
+        is_successed = True
+        message = "로그아웃 되었습니다."
+    return JsonResponse({
+                'status': status,
+                'success': is_successed,
+                'message': message,
+            })
+
 
 def signup(request):
     if request.method == "POST":
@@ -71,3 +87,4 @@ def signup(request):
                 'data': user_json
             })
     return 0
+
