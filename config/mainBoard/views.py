@@ -1,3 +1,4 @@
+from site import USER_BASE
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
 from .models import *
@@ -22,11 +23,18 @@ def create_category(request):
         new_category.title = body['title']
         new_category.view_auth = body['view_auth']
         new_category.save()
+        
+        new_category_json={}
+        new_category_json["category_id"] = new_category.id
+        new_category_json["user"] = new_category.user.email
+        new_category_json["title"] = new_category.title
+        new_category_json["view_auth"] = new_category.view_auth
+        
         return JsonResponse({
                 'status': 200,
                 'success': True,
                 'message': '생성 성공!',
-                'data': "create_category_json"
+                'data': new_category_json
             })
     return 0
     
@@ -36,11 +44,20 @@ def get_category(request):
     login(request, user)
     if request.method == "GET":
         uesr_category = Category.objects.filter(user = user)
-        user_category_json = serializers.serialize("json", uesr_category)
+        # user_category_json = serializers.serialize("json", uesr_category)
+        user_category_json={}
+        for category in uesr_category:
+            new_set={}
+            new_set["category_id"] = category.id
+            new_set["user"] = category.user.email
+            new_set["title"] = category.title
+            new_set["view_auth"] = category.view_auth
+            user_category_json[category.title] = new_set
+                
         return JsonResponse({
                 'status': 200,
                 'success': True,
-                'message': '수신 성공!',
+                'message': 'category 수신 성공!',
                 'data': user_category_json
             })
     return 0
@@ -48,14 +65,19 @@ def get_category(request):
 
 def update_category(request, id):
     if request.method == "POST":
-        # category_id = request.POST['category_id']
         body =  json.loads(request.body.decode('utf-8'))
         update_category = get_object_or_404(Category,pk = id)
         update_category.title = body['title']
         update_category.view_auth = body['view_auth']
         update_category.save()
-        update_category_json = [update_category]
-        update_category_json = serializers.serialize("json", update_category_json)
+        # update_category_json = [update_category]
+        # update_category_json = serializers.serialize("json", update_category_json)
+        
+        update_category_json={}
+        update_category_json["category_id"] = update_category.id
+        update_category_json["user"] = update_category.user.email
+        update_category_json["title"] = update_category.title
+        update_category_json["view_auth"] = update_category.view_auth
         
         return JsonResponse({
                 'status': 200,
@@ -74,7 +96,7 @@ def delete_category(request, id):
                 'status': 200,
                 'success': True,
                 'message': '삭제 성공!',
-                'data': "delete_category_json"
+                'data': None
             })
     return 0
 
