@@ -13,6 +13,4 @@ urlpatterns = [
     path('update-todo/<int:todo_id>', update_todo, name="update_todo"),
     path('delete-todo/<int:todo_id>', delete_todo, name="delete_todo"),
     
-    
-    
 ]

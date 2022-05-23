@@ -38,21 +38,23 @@ def create_category(request):
             })
     return 0
     
-    
+def get_category_detail(request, id):
+    user = request
+
 def get_category(request):
     user = authenticate(username="admin", password="1234")
     login(request, user)
     if request.method == "GET":
         uesr_category = Category.objects.filter(user = user)
         # user_category_json = serializers.serialize("json", uesr_category)
-        user_category_json={}
+        user_category_json=[]
         for category in uesr_category:
             new_set={}
             new_set["category_id"] = category.id
             new_set["user"] = category.user.email
             new_set["title"] = category.title
             new_set["view_auth"] = category.view_auth
-            user_category_json[category.title] = new_set
+            user_category_json.append(new_set)
                 
         return JsonResponse({
                 'status': 200,
