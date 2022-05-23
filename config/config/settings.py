@@ -60,6 +60,8 @@ INSTALLED_APPS = [
     'mainBoard',
     'accounts',
     
+    'corsheaders', # 추가
+    
     'allauth', # <- 추가
     'allauth.account', # <- 추가
     'allauth.socialaccount', # <- 추가
@@ -70,6 +72,8 @@ SITE_ID = 2
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # 추가
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,7 +81,21 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+
 ]
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://localhost:3000',
+]
+
+
 
 ROOT_URLCONF = 'config.urls'
 
