@@ -38,8 +38,22 @@ def create_category(request):
             })
     return 0
     
-def get_category_detail(request, id):
-    user = request
+def detail_category(request, id):
+    if request.method == "GET":
+        detail_category = Category.objects.filter(id = id)
+        detail_category_json={}
+        detail_category_json["category_id"] = detail_category.id
+        detail_category_json["user"] = detail_category.user.email
+        detail_category_json["title"] = detail_category.title
+        detail_category_json["view_auth"] = detail_category.view_auth
+        
+        return JsonResponse({
+                'status': 200,
+                'success': True,
+                'message': 'detail_category 수신 성공!',
+                'data': detail_category_json
+            })
+    return 0
 
 def get_category(request):
     user = authenticate(username="admin", password="1234")
@@ -66,7 +80,7 @@ def get_category(request):
 
 
 def update_category(request, id):
-    if request.method == "POST":
+    if request.method == "PATCH":
         body =  json.loads(request.body.decode('utf-8'))
         update_category = get_object_or_404(Category,pk = id)
         update_category.title = body['title']
@@ -91,7 +105,7 @@ def update_category(request, id):
     
     
 def delete_category(request, id):
-    if request.method == "POST":
+    if request.method == "DELETE":
         delete_category = get_object_or_404(Category, pk = id)
         delete_category.delete()
         return JsonResponse({
@@ -137,7 +151,7 @@ def get_todo(request, category_id):
 
 
 def update_todo(request, todo_id):
-    if request.method == "POST":
+    if request.method == "PATCH":
         body =  json.loads(request.body.decode('utf-8'))
         update_todo = get_object_or_404(Todo,pk = todo_id)
         update_todo.content = body['content']
@@ -156,7 +170,7 @@ def update_todo(request, todo_id):
 
 
 def delete_todo(request, todo_id):
-    if request.method == "POST":
+    if request.method == "DELETE":
         delete_todo = get_object_or_404(Todo,pk = todo_id)
         delete_todo.delete()
         return JsonResponse({
