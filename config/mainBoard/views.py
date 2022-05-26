@@ -40,7 +40,7 @@ def create_category(request):
     
 def detail_category(request, id):
     if request.method == "GET":
-        detail_category = Category.objects.filter(id = id)
+        detail_category = Category.objects.get_object_or_404(id = id)
         detail_category_json={}
         detail_category_json["category_id"] = detail_category.id
         detail_category_json["user"] = detail_category.user.email
