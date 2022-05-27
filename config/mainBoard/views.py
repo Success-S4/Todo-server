@@ -13,7 +13,6 @@ def view_main(request):
 
 
 def create_category(request):
-    print("debug")
     user = authenticate(username="admin", password="1234")
     login(request, user)
     if request.method == "POST":
@@ -184,7 +183,7 @@ def update_todo(request, todo_id):
         return JsonResponse({
                 'status': 200,
                 'success': True,
-                'message': '댓글 업데이트 성공!',
+                'message': 'Todo 업데이트 성공!',
                 'data': update_todo_json
             })
     return 0
