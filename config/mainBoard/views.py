@@ -126,8 +126,13 @@ def create_todo(request, category_id):
         new_todo.category = get_object_or_404(Category, pk = category_id)
         new_todo.content = body['content']
         new_todo.save()
-        new_todo_json = [new_todo]
-        new_todo_json = serializers.serialize("json", new_todo_json)
+        # new_todo_json = serializers.serialize("json", [new_todo])
+        new_todo_json={}
+        new_todo_json["todo_id"] = new_todo.id
+        new_todo_json["content"] = new_todo.content
+        new_todo_json["is_completed"] = new_todo.is_completed
+        new_todo_json["pup_date"] = new_todo.pup_date
+        
         return JsonResponse({
                 'status': 200,
                 'success': True,
@@ -140,7 +145,17 @@ def create_todo(request, category_id):
 def get_todo(request, category_id):
     if request.method == "GET":
         category_todo = Todo.objects.filter(category = category_id)
-        category_todo_json = serializers.serialize("json", category_todo)
+        # category_todo_json = serializers.serialize("json", category_todo)
+        
+        category_todo_json=[]
+        for todo in category_todo:
+            new_set={}
+            new_set["todo_id"] = todo.id
+            new_set["content"] = todo.content
+            new_set["is_completed"] = todo.is_completed
+            new_set["pup_date"] = todo.pup_date
+            category_todo_json.append(new_set)
+        
         return JsonResponse({
                 'status': 200,
                 'success': True,
@@ -157,8 +172,14 @@ def update_todo(request, todo_id):
         update_todo.content = body['content']
         update_todo.is_completed = body['is_completed']
         update_todo.save()
-        update_todo_json = [update_todo]
-        update_todo_json = serializers.serialize("json", update_todo_json)
+        
+        # update_todo_json = serializers.serialize("json", [update_todo])
+        
+        update_todo_json={}
+        update_todo_json["todo_id"] = update_todo.id
+        update_todo_json["content"] = update_todo.content
+        update_todo_json["is_completed"] = update_todo.is_completed
+        update_todo_json["pup_date"] = update_todo.pup_date
         
         return JsonResponse({
                 'status': 200,
