@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 import json
 
 # Create your views here.
-def view_main(request):
+def view_index(request):
     return render(request, 'index.html')
 
 

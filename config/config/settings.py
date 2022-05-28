@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import json, os
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,11 +28,12 @@ with open(SECRET_FILE) as f:
 def get_secret(setting, secrets=secrets):
     return secrets[setting]
 
-
+DOMAIN = "http://127.0.0.1:8000/"
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_secret('SECRET_KEY')
+KAKAO_REST_API_KEY = get_secret('KAKAO_REST_API_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -66,7 +69,11 @@ INSTALLED_APPS = [
     'allauth.account', # <- 추가
     'allauth.socialaccount', # <- 추가
     'allauth.socialaccount.providers.kakao', # <- 추가
+    'allauth.socialaccount.providers.auth0',
+
 ]
+
+
 
 SITE_ID = 2
 
@@ -92,7 +99,6 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
-    'http://localhost:3000',
 ]
 
 
@@ -110,6 +116,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -166,8 +173,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 
-
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -182,3 +187,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'  # 로그인시 username 이 아니라 e
 ACCOUNT_EMAIL_REQUIRED = True  # 회원가입시 필수 이메일을 필수항목으로 만들기
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_UNIQUE_USERNAME = False
+
+LOGIN_REDIRECT_URL = 'index' # 로그인 후 리디렉션할 페이지
+ACCOUNT_LOGOUT_REDIRECT_URL = "index"  # 로그아웃 후 리디렉션 할 페이지
+ACCOUNT_LOGOUT_ON_GET = True # 로그아웃 버튼 클릭 시 자동 로그아웃

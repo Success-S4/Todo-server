@@ -1,14 +1,16 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.http.response import JsonResponse
 from django.core import serializers
 from .models import *
-import json
+from config.settings import DOMAIN, KAKAO_REST_API_KEY
+import json, os
+
 
 
 # Create your views here.
 def signin(request):
-    if request.method == "POST":
+    if request.method == "GET":
         body =  json.loads(request.body.decode('utf-8'))
         email = body['email']
         pw = body['pw']
@@ -88,3 +90,11 @@ def signup(request):
             })
     return 0
 
+
+# kakao
+def kakao_login(request):
+    print("dasdf")
+    redirect_uri = DOMAIN + "users/login/kakao/callback"
+    return redirect(
+        f"https://kauth.kakao.com/oauth/authorize?client_id={KAKAO_REST_API_KEY}&redirect_uri={redirect_uri}&response_type=code"
+    )
