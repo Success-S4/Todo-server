@@ -69,7 +69,6 @@ INSTALLED_APPS = [
     'allauth.account', # <- 추가
     'allauth.socialaccount', # <- 추가
     'allauth.socialaccount.providers.kakao', # <- 추가
-    'allauth.socialaccount.providers.auth0',
 
 ]
 
